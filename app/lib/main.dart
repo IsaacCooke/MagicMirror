@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter/services.dart';
+
+import 'package:app/pages/layout.dart';
+import 'package:app/themes/cupertino_theme.dart';
 
 void main() async {
   runApp(const App());
@@ -11,12 +13,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return const CupertinoApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World'),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: darkColorScheme,
+      home: Layout(),
     );
   }
 }
