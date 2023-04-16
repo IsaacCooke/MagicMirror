@@ -45,24 +45,14 @@ func SetupDB() {
 	db := Connect()
 
 	_, err := db.Exec(
-		`CREATE TABLE IF NOT EXISTS repeat (
-				    id SERIAL PRIMARY KEY,
-				    never BOOLEAN,
-				    daily BOOLEAN,
-				    bi_weekly BOOLEAN,
-				    weekly BOOLEAN,
-				    monthly BOOLEAN,
-				    yearly BOOLEAN
-			);
-			CREATE TABLE IF NOT EXISTS reminders (
-    				id SERIAL PRIMARY KEY,
-    				title TEXT,
-    				description TEXT,
-    				is_done BOOLEAN,
-    				repeat_id INTEGER,
-    				due_date TIMESTAMP,
-    				FOREIGN KEY (repeat_id) REFERENCES repeat(id)
-				);`)
+		`CREATE TABLE IF NOT EXISTS reminders (
+    			id SERIAL PRIMARY KEY,
+    			title TEXT,
+    			description TEXT,
+    			is_done boolean,
+    			due_date TIMESTAMP,
+    			repeat boolean
+);`)
 	checkError(err)
 	fmt.Println("Successfully created tables!")
 }

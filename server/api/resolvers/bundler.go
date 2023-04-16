@@ -16,6 +16,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 
 		"getRemindersDueToday": getRemindersDueToday,
 		"getOverdueReminders":  getOverdueReminders,
+		"getUndoneReminders":   getUndoneReminders,
 	},
 })
 
@@ -39,16 +40,20 @@ func RunServer() {
 	router := gin.Default()
 	setupCors(router)
 
-	handler := handler.New(&handler.Config{
+	graphqlHandler := handler.New(&handler.Config{
 		Schema:   &schema,
 		Pretty:   true,
 		GraphiQL: true,
 	})
 
-	router.GET("/graphql", gin.WrapH(handler))
-	router.POST("/graphql", gin.WrapH(handler))
+	router.GET("/graphql", gin.WrapH(graphqlHandler))
+	router.POST("/graphql", gin.WrapH(graphqlHandler))
 
-	router.Run(":8080")
+	err := router.Run(":8080")
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func setupCors(router gin.IRouter) {

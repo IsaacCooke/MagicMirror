@@ -10,7 +10,7 @@ type Reminder struct {
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	IsDone      bool      `json:"is_done"`
-	Repeat      Repeat    `json:"repeat"`
+	Repeat      bool      `json:"repeat"`
 	DueDate     time.Time `json:"due_date"`
 }
 
@@ -29,11 +29,11 @@ var ReminderType = graphql.NewObject(graphql.ObjectConfig{
 		"IsDone": &graphql.Field{
 			Type: graphql.Boolean,
 		},
-		"Repeat": &graphql.Field{
-			Type: RepeatType,
-		},
 		"DueDate": &graphql.Field{
 			Type: graphql.DateTime,
+		},
+		"Repeat": &graphql.Field{
+			Type: graphql.Boolean,
 		},
 	},
 })

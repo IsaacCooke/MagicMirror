@@ -8,11 +8,13 @@ import (
 	"time"
 )
 
+// Queries
+
 var getAllReminders = &graphql.Field{
 	Type: graphql.NewList(models.ReminderType),
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 		db := data.Connect()
-		rows, err := db.Query("SELECT * FROM reminders RIGHT JOIN repeat ON reminders.repeat_id = repeat.id")
+		rows, err := db.Query("SELECT * FROM reminders;")
 		checkError(err)
 
 		var reminders []models.Reminder
@@ -21,9 +23,8 @@ var getAllReminders = &graphql.Field{
 			var id int
 			var title, description string
 			var dueDate time.Time
-			var isDone bool
-			var never, daily, biWeekly, weekly, monthly, yearly bool
-			err := rows.Scan(&id, &title, &description, &dueDate, &isDone, &never, &daily, &biWeekly, &weekly, &monthly, &yearly)
+			var isDone, repeat bool
+			err := rows.Scan(&id, &title, &description, &isDone, &dueDate, &repeat)
 			checkError(err)
 
 			reminders = append(reminders, models.Reminder{
@@ -32,14 +33,7 @@ var getAllReminders = &graphql.Field{
 				Description: description,
 				DueDate:     dueDate,
 				IsDone:      isDone,
-				Repeat: models.Repeat{
-					Never:    never,
-					Daily:    daily,
-					BiWeekly: biWeekly,
-					Weekly:   weekly,
-					Monthly:  monthly,
-					Yearly:   yearly,
-				},
+				Repeat:      repeat,
 			})
 		}
 		return reminders, nil
@@ -57,11 +51,11 @@ var getReminderById = &graphql.Field{
 		id := params.Args["id"].(int)
 		db := data.Connect()
 
-		sqlStatement := `SELECT * FROM reminders RIGHT JOIN repeat ON reminders.repeat_id = repeat.id WHERE reminders.id = $1`
+		sqlStatement := `SELECT * FROM reminders WHERE id = $1`
 		var reminder models.Reminder
 
 		row := db.QueryRow(sqlStatement, id)
-		err := row.Scan(&reminder.ID, &reminder.Title, &reminder.Description, &reminder.DueDate, &reminder.IsDone, &reminder.Repeat.Never, &reminder.Repeat.Daily, &reminder.Repeat.BiWeekly, &reminder.Repeat.Weekly, &reminder.Repeat.Monthly, &reminder.Repeat.Yearly)
+		err := row.Scan(&reminder.ID, &reminder.Title, &reminder.Description, &reminder.IsDone, &reminder.DueDate, &reminder.Repeat)
 
 		switch err {
 		case sql.ErrNoRows:
@@ -78,7 +72,7 @@ var getRemindersDueToday = &graphql.Field{
 	Type: graphql.NewList(models.ReminderType),
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 		db := data.Connect()
-		rows, err := db.Query("SELECT * FROM reminders RIGHT JOIN repeat ON reminders.repeat_id = repeat.id WHERE reminders.due_date = $1", time.Now().Format("2006-01-02"))
+		rows, err := db.Query("SELECT * FROM reminders WHERE due_date = $1", time.Now().Format("2006-01-02"))
 		checkError(err)
 
 		var reminders []models.Reminder
@@ -87,9 +81,8 @@ var getRemindersDueToday = &graphql.Field{
 			var id int
 			var title, description string
 			var dueDate time.Time
-			var isDone bool
-			var never, daily, biWeekly, weekly, monthly, yearly bool
-			err := rows.Scan(&id, &title, &description, &dueDate, &isDone, &never, &daily, &biWeekly, &weekly, &monthly, &yearly)
+			var isDone, repeat bool
+			err := rows.Scan(&id, &title, &description, &dueDate, &isDone, &repeat)
 			checkError(err)
 
 			reminders = append(reminders, models.Reminder{
@@ -98,14 +91,7 @@ var getRemindersDueToday = &graphql.Field{
 				Description: description,
 				DueDate:     dueDate,
 				IsDone:      isDone,
-				Repeat: models.Repeat{
-					Never:    never,
-					Daily:    daily,
-					BiWeekly: biWeekly,
-					Weekly:   weekly,
-					Monthly:  monthly,
-					Yearly:   yearly,
-				},
+				Repeat:      repeat,
 			})
 		}
 		return reminders, nil
@@ -116,7 +102,7 @@ var getOverdueReminders = &graphql.Field{
 	Type: graphql.NewList(models.ReminderType),
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
 		db := data.Connect()
-		rows, err := db.Query("SELECT * FROM reminders RIGHT JOIN repeat ON reminders.repeat_id = repeat.id WHERE reminders.due_date < $1", time.Now().Format("2006-01-02"))
+		rows, err := db.Query("SELECT * FROM reminders WHERE due_date < $1", time.Now().Format("2006-01-02"))
 		checkError(err)
 
 		var reminders []models.Reminder
@@ -125,9 +111,8 @@ var getOverdueReminders = &graphql.Field{
 			var id int
 			var title, description string
 			var dueDate time.Time
-			var isDone bool
-			var never, daily, biWeekly, weekly, monthly, yearly bool
-			err := rows.Scan(&id, &title, &description, &dueDate, &isDone, &never, &daily, &biWeekly, &weekly, &monthly, &yearly)
+			var isDone, repeat bool
+			err := rows.Scan(&id, &title, &description, &dueDate, &isDone, &repeat)
 			checkError(err)
 
 			reminders = append(reminders, models.Reminder{
@@ -136,19 +121,44 @@ var getOverdueReminders = &graphql.Field{
 				Description: description,
 				DueDate:     dueDate,
 				IsDone:      isDone,
-				Repeat: models.Repeat{
-					Never:    never,
-					Daily:    daily,
-					BiWeekly: biWeekly,
-					Weekly:   weekly,
-					Monthly:  monthly,
-					Yearly:   yearly,
-				},
+				Repeat:      repeat,
 			})
 		}
 		return reminders, nil
 	},
 }
+
+var getUndoneReminders = &graphql.Field{
+	Type: graphql.NewList(models.ReminderType),
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		db := data.Connect()
+		rows, err := db.Query("SELECT * FROM reminders WHERE is_done = false")
+		checkError(err)
+
+		var reminders []models.Reminder
+
+		for rows.Next() {
+			var id int
+			var title, description string
+			var dueDate time.Time
+			var isDone, repeat bool
+			err := rows.Scan(&id, &title, &description, &isDone, &dueDate, &repeat)
+			checkError(err)
+
+			reminders = append(reminders, models.Reminder{
+				ID:          id,
+				Title:       title,
+				Description: description,
+				DueDate:     dueDate,
+				IsDone:      isDone,
+				Repeat:      repeat,
+			})
+		}
+		return reminders, nil
+	},
+}
+
+// Mutations
 
 var createReminder = &graphql.Field{
 	Type: models.ReminderType,
@@ -162,23 +172,8 @@ var createReminder = &graphql.Field{
 		"dueDate": &graphql.ArgumentConfig{
 			Type: graphql.NewNonNull(graphql.DateTime),
 		},
-		"never": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"daily": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"biWeekly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"weekly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"monthly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"yearly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
+		"repeat": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.Boolean),
 		},
 	},
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
@@ -187,16 +182,11 @@ var createReminder = &graphql.Field{
 		title := params.Args["title"].(string)
 		description := params.Args["description"].(string)
 		dueDate := params.Args["dueDate"].(time.Time)
-		never := params.Args["never"].(bool)
-		daily := params.Args["daily"].(bool)
-		biWeekly := params.Args["biWeekly"].(bool)
-		weekly := params.Args["weekly"].(bool)
-		monthly := params.Args["monthly"].(bool)
-		yearly := params.Args["yearly"].(bool)
+		repeat := params.Args["repeat"].(bool)
 
-		sqlStatement := `INSERT INTO reminders (title, description, due_date, never, daily, bi_weekly, weekly, monthly, yearly) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`
+		sqlStatement := `INSERT INTO reminders (title, description, is_done, due_date, repeat) VALUES ($1, $2, false, $3, $4) RETURNING id`
 		var id int
-		err := db.QueryRow(sqlStatement, title, description, dueDate, never, daily, biWeekly, weekly, monthly, yearly).Scan(&id)
+		err := db.QueryRow(sqlStatement, title, description, dueDate, repeat).Scan(&id)
 		checkError(err)
 
 		return models.Reminder{
@@ -205,14 +195,7 @@ var createReminder = &graphql.Field{
 			Description: description,
 			DueDate:     dueDate,
 			IsDone:      false,
-			Repeat: models.Repeat{
-				Never:    never,
-				Daily:    daily,
-				BiWeekly: biWeekly,
-				Weekly:   weekly,
-				Monthly:  monthly,
-				Yearly:   yearly,
-			},
+			Repeat:      repeat,
 		}, nil
 	},
 }
@@ -235,22 +218,7 @@ var updateReminder = &graphql.Field{
 		"isDone": &graphql.ArgumentConfig{
 			Type: graphql.Boolean,
 		},
-		"never": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"daily": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"biWeekly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"weekly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"monthly": &graphql.ArgumentConfig{
-			Type: graphql.Boolean,
-		},
-		"yearly": &graphql.ArgumentConfig{
+		"repeat": &graphql.ArgumentConfig{
 			Type: graphql.Boolean,
 		},
 	},
@@ -262,15 +230,10 @@ var updateReminder = &graphql.Field{
 		description := params.Args["description"].(string)
 		dueDate := params.Args["dueDate"].(time.Time)
 		isDone := params.Args["isDone"].(bool)
-		never := params.Args["never"].(bool)
-		daily := params.Args["daily"].(bool)
-		biWeekly := params.Args["biWeekly"].(bool)
-		weekly := params.Args["weekly"].(bool)
-		monthly := params.Args["monthly"].(bool)
-		yearly := params.Args["yearly"].(bool)
+		repeat := params.Args["repeat"].(bool)
 
-		sqlStatement := `UPDATE reminders SET title = $1, description = $2, due_date = $3, is_done = $4, never = $5, daily = $6, bi_weekly = $7, weekly = $8, monthly = $9, yearly = $10 WHERE id = $11`
-		_, err := db.Exec(sqlStatement, title, description, dueDate, isDone, never, daily, biWeekly, weekly, monthly, yearly, id)
+		sqlStatement := `UPDATE reminders SET title = $1, description = $2, due_date = $3, is_done = $4, repeat = $5 WHERE id = $6`
+		_, err := db.Exec(sqlStatement, title, description, dueDate, isDone, repeat, id)
 		checkError(err)
 
 		return models.Reminder{
@@ -279,14 +242,7 @@ var updateReminder = &graphql.Field{
 			Description: description,
 			DueDate:     dueDate,
 			IsDone:      isDone,
-			Repeat: models.Repeat{
-				Never:    never,
-				Daily:    daily,
-				BiWeekly: biWeekly,
-				Weekly:   weekly,
-				Monthly:  monthly,
-				Yearly:   yearly,
-			},
+			Repeat:      repeat,
 		}, nil
 	},
 }
