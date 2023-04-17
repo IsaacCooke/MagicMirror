@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:app/pages/home.dart';
@@ -9,10 +8,10 @@ class Layout extends StatefulWidget {
   const Layout({Key? key}) : super(key: key);
 
   @override
-  _LayoutState createState() => _LayoutState();
+  LayoutState createState() => LayoutState();
 }
 
-class _LayoutState extends State<Layout> {
+class LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +23,12 @@ class _LayoutState extends State<Layout> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.doc_fill),
-            label: 'Flashcards',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.list_bullet),
             label: 'Reminders',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.doc_fill),
+            label: 'Flashcards',
           ),
         ],
       ),
@@ -43,12 +42,12 @@ class _LayoutState extends State<Layout> {
             break;
           case 1:
             returnValue = CupertinoTabView(builder: (context) {
-              return const Flashcards();
+              return const Reminders();
             });
             break;
           case 2:
             returnValue = CupertinoTabView(builder: (context) {
-              return const Reminders();
+              return const Flashcards();
             });
             break;
         }
@@ -57,30 +56,3 @@ class _LayoutState extends State<Layout> {
     );
   }
 }
-
-/*
-appBar: AppBar(
-        title: const Text('Mirror Control'),
-      ),
-      body: Center(
-        child: _options.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.house_fill),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.doc_fill),
-            label: 'Flashcards',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.list_bullet),
-            label: 'Reminders',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
- */

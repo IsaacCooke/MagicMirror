@@ -12,7 +12,7 @@ class FlashcardsState extends State<Flashcards> {
   Widget build(BuildContext context) {
     return const CupertinoPageScaffold(
       child: Center(
-        child: Text("Reminders"),
+        child: Text("Flashcards"),
       ),
     );
   }

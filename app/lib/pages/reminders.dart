@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:app/data/widgets/reminders/get_reminders.dart';
 
 class Reminders extends StatefulWidget {
   const Reminders({Key? key}) : super(key: key);
@@ -11,10 +11,24 @@ class Reminders extends StatefulWidget {
 class RemindersState extends State<Reminders> {
   @override
   Widget build(BuildContext context) {
-    return const CupertinoPageScaffold(
-      child: Center(
-        child: Text("Reminders"),
-      ),
+    return CupertinoPageScaffold(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const Text("Reminders"),
+            CupertinoButton(
+                child: const Text("Show Reminders"),
+                onPressed: () => Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => GetReminders(),
+                  ),
+                ),
+            ),
+          ],
+        ),
+      )
     );
   }
 }
