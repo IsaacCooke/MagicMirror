@@ -170,7 +170,7 @@ var createReminder = &graphql.Field{
 			Type: graphql.String,
 		},
 		"dueDate": &graphql.ArgumentConfig{
-			Type: graphql.NewNonNull(graphql.DateTime),
+			Type: graphql.NewNonNull(graphql.String),
 		},
 		"repeat": &graphql.ArgumentConfig{
 			Type: graphql.NewNonNull(graphql.Boolean),
@@ -181,12 +181,17 @@ var createReminder = &graphql.Field{
 
 		title := params.Args["title"].(string)
 		description := params.Args["description"].(string)
-		dueDate := params.Args["dueDate"].(time.Time)
+		dueDateAsString := params.Args["dueDate"].(string)
 		repeat := params.Args["repeat"].(bool)
+
+		dueDate, err := parseDateString(dueDateAsString)
+		checkError(err)
+		dbTimeFormat := "2006-01-02 15:04:05.999999-07"
+		dbTimeString := dueDate.Format(dbTimeFormat)
 
 		sqlStatement := `INSERT INTO reminders (title, description, is_done, due_date, repeat) VALUES ($1, $2, false, $3, $4) RETURNING id`
 		var id int
-		err := db.QueryRow(sqlStatement, title, description, dueDate, repeat).Scan(&id)
+		err = db.QueryRow(sqlStatement, title, description, dbTimeString, repeat).Scan(&id)
 		checkError(err)
 
 		return models.Reminder{
@@ -213,7 +218,7 @@ var updateReminder = &graphql.Field{
 			Type: graphql.String,
 		},
 		"dueDate": &graphql.ArgumentConfig{
-			Type: graphql.DateTime,
+			Type: graphql.String,
 		},
 		"isDone": &graphql.ArgumentConfig{
 			Type: graphql.Boolean,
@@ -228,12 +233,17 @@ var updateReminder = &graphql.Field{
 		id := params.Args["id"].(int)
 		title := params.Args["title"].(string)
 		description := params.Args["description"].(string)
-		dueDate := params.Args["dueDate"].(time.Time)
+		dueDateAsString := params.Args["dueDate"].(string)
 		isDone := params.Args["isDone"].(bool)
 		repeat := params.Args["repeat"].(bool)
 
+		dueDate, err := parseDateString(dueDateAsString)
+		checkError(err)
+		dbTimeFormat := "2006-01-02 15:04:05.999999-07"
+		dbTimeString := dueDate.Format(dbTimeFormat)
+
 		sqlStatement := `UPDATE reminders SET title = $1, description = $2, due_date = $3, is_done = $4, repeat = $5 WHERE id = $6`
-		_, err := db.Exec(sqlStatement, title, description, dueDate, isDone, repeat, id)
+		_, err = db.Exec(sqlStatement, title, description, dbTimeString, isDone, repeat, id)
 		checkError(err)
 
 		return models.Reminder{

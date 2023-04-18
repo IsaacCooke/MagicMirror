@@ -43,10 +43,10 @@ class ReminderWidget extends StatelessWidget {
                       Text(isDone.toString()),
                       Text(repeat.toString()),
                     ],
-                  )
-              )
-            ]
-        )
+                  ),
+              ),
+            ],
+        ),
     );
   }
 }

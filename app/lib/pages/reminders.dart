@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:app/data/widgets/reminders/get_reminders.dart';
+import 'package:app/data/widgets/reminders/create_reminders.dart';
+
 
 class Reminders extends StatefulWidget {
   const Reminders({Key? key}) : super(key: key);
@@ -26,9 +28,18 @@ class RemindersState extends State<Reminders> {
                   ),
                 ),
             ),
+            CupertinoButton(
+                child: const Text("Add Reminder"),
+                onPressed: () => Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => const CreateReminder(),
+                  ),
+                ),
+            ),
           ],
         ),
-      )
+      ),
     );
   }
 }
