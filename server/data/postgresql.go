@@ -46,13 +46,18 @@ func SetupDB() {
 
 	_, err := db.Exec(
 		`CREATE TABLE IF NOT EXISTS reminders (
-    			id SERIAL PRIMARY KEY,
-    			title TEXT,
-    			description TEXT,
-    			is_done boolean,
-    			due_date TIMESTAMP,
-    			repeat boolean
-);`)
+    				id SERIAL PRIMARY KEY,
+    				title TEXT,
+    				description TEXT,
+    				is_done boolean,
+    				due_date TIMESTAMP,
+					repeat boolean
+				);
+				CREATE TABLE IF NOT EXISTS flashcards (
+    				id SERIAL PRIMARY KEY,
+    				term TEXT,
+					definition TEXT
+				);`)
 	checkError(err)
 	fmt.Println("Successfully created tables!")
 }

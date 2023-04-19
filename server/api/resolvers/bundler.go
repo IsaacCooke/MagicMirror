@@ -17,6 +17,9 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 		"getRemindersDueToday": getRemindersDueToday,
 		"getOverdueReminders":  getOverdueReminders,
 		"getUndoneReminders":   getUndoneReminders,
+
+		"getAllFlashcards": getAllFlashcards,
+		"getFlashcardById": getFlashcardById,
 	},
 })
 
@@ -26,6 +29,9 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 		"createReminder": createReminder,
 		"updateReminder": updateReminder,
 		"deleteReminder": deleteReminder,
+
+		"createFlashcard": createFlashcard,
+		"updateFlashcard": updateFlashcard,
 	},
 })
 
