@@ -112,3 +112,23 @@ var updateFlashcard = &graphql.Field{
 		return id, nil
 	},
 }
+
+var deleteFlashcard = &graphql.Field{
+	Type: models.FlashcardType,
+	Args: graphql.FieldConfigArgument{
+		"id": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.Int),
+		},
+	},
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		db := data.Connect()
+
+		id := params.Args["id"].(int)
+
+		sqlStatement := `DELETE FROM flashcards WHERE id = $1;`
+		_, err := db.Exec(sqlStatement, id)
+		checkError(err)
+
+		return id, nil
+	},
+}
