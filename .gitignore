@@ -1,2 +1,3 @@
 server/.env
 app/lib/example.dart
+web/.env
