@@ -57,6 +57,10 @@ func SetupDB() {
     				id SERIAL PRIMARY KEY,
     				term TEXT,
 					definition TEXT
+				);
+				CREATE TABLE IF NOT EXISTS notes (
+    				id SERIAL PRIMARY KEY,
+    				content TEXT
 				);`)
 	checkError(err)
 	fmt.Println("Successfully created tables!")

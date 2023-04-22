@@ -21,6 +21,9 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 		"getAllFlashcards": getAllFlashcards,
 		"getFlashcardById": getFlashcardById,
 
+		"getAllNotes": getAllNotes,
+		"getNoteById": getNoteById,
+
 		"getSpotifyApiKey":    getSpotifyApiKey,
 		"getSpotifyApiSecret": getSpotifyApiSecret,
 	},
@@ -36,6 +39,10 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 		"createFlashcard": createFlashcard,
 		"updateFlashcard": updateFlashcard,
 		"deleteFlashcard": deleteFlashcard,
+
+		"createNote": createNote,
+		"updateNote": updateNote,
+		"deleteNote": deleteNote,
 	},
 })
 
