@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:app/data/widgets/flashcards/create_flashcards.dart';
+import 'package:app/data/widgets/flashcards/delete_flashcards.dart';
 import 'package:app/data/widgets/flashcards/get_flashcards.dart';
 
 class Flashcards extends StatefulWidget {
@@ -19,7 +20,7 @@ class FlashcardsState extends State<Flashcards> {
         child: Column(
           children: [
             CupertinoButton(
-              child: Text("Show Flashcards"),
+              child: const Text("Show Flashcards"),
               onPressed: () => Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -28,7 +29,7 @@ class FlashcardsState extends State<Flashcards> {
               ),
             ),
             CupertinoButton(
-              child: Text("Add Flashcard"),
+              child: const Text("Add Flashcard"),
               onPressed: () => Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -36,6 +37,15 @@ class FlashcardsState extends State<Flashcards> {
                 ),
               ),
             ),
+            CupertinoButton(
+              child: const Text("Delete Flashcard"),
+              onPressed: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const DeleteFlashcards(),
+                ),
+              )
+            )
           ],
         ),
       ),
