@@ -1,4 +1,5 @@
 import { useState } from "react";
+import '../css/Clock.scss';
 
 const DisplayClock = () => {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
@@ -7,7 +8,11 @@ const DisplayClock = () => {
     setTime(new Date().toLocaleTimeString());
   }
   setInterval(UpdateTime);
-  return <h1>{time}</h1>
+  return (
+    <div className={"clock"}>
+      <h1>{time}</h1>
+    </div>
+    )
 }
 
 export default DisplayClock;

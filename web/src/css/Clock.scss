@@ -1,0 +1,11 @@
+.clock {
+  @apply font-bold;
+  align-content: center;
+  align-self: center;
+  text-align: center;
+  h1 {
+    @apply text-3xl font-bold;
+    align-self: center;
+    text-align: center;
+  }
+}

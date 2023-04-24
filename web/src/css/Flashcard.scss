@@ -1,0 +1,12 @@
+.flashcard {
+  h1 {
+    @apply text-2xl font-bold;
+    align-self: center;
+    text-align: center;
+  }
+  p {
+    @apply text-xl;
+    align-self: center;
+    text-align: center;
+  }
+}

@@ -1,3 +1,4 @@
+import '../css/Flashcard.scss';
 export interface FlashcardProps {
   ID: string;
   Term: string;
@@ -7,7 +8,7 @@ export interface FlashcardProps {
 const Flashcard = (props: FlashcardProps) => {
   return (
     <>
-    <div>
+    <div className={"flashcard"}>
       <h1>{props.Term}</h1>
       <p>{props.Definition}</p>
     </div>
