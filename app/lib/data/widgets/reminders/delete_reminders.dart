@@ -3,35 +3,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'package:app/data/models/constants.dart';
-import 'package:app/data/models/note.dart';
+import 'package:app/data/models/reminder.dart';
 
-class DeleteNotes extends StatefulWidget {
-  const DeleteNotes({Key? key}) : super(key: key);
+class DeleteReminders extends StatefulWidget {
+  const DeleteReminders({Key? key}) : super(key: key);
 
   @override
-  DeleteNotesState createState() => DeleteNotesState();
+  DeleteRemindersState createState() => DeleteRemindersState();
 }
 
-class DeleteNotesState extends State<DeleteNotes> {
+class DeleteRemindersState extends State<DeleteReminders> {
+
   static const String query = """
-    query {
-      getAllNotes {
-        ID
-        Content
-      }
+  query {
+    getAllReminders {
+      ID
+      IsDone
+      Title
+      Repeat
+      Description
+      DueDate
     }
+  }
   """;
 
-  void _deleteNote(int id) async {
+  void _deleteReminder(int id) async {
     final client = constants.client;
 
     const String mutation = """
-    mutation deleteNote(\$id: Int!) {
-      deleteNote(id: \$id) {
+    mutation deleteReminder(\$id: Int!) {
+      deleteReminder(id: \$id) {
         ID
       }
     }
-    """;
+  """;
 
     final options = MutationOptions(
       document: gql(mutation),
@@ -50,10 +55,10 @@ class DeleteNotesState extends State<DeleteNotes> {
   final Constants constants = Constants();
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text("Notes"),
+        middle: Text("reminders"),
       ),
       child: GraphQLProvider(
         client: constants.client,
@@ -72,29 +77,35 @@ class DeleteNotesState extends State<DeleteNotes> {
                 child: Text("No Data"),
               );
             }
-            final notes = result.data!["getAllNotes"] as List<dynamic>;
+            final reminders = result.data!["getAllReminders"] as List<dynamic>;
             return ListView.builder(
-              itemCount: notes.length,
+              itemCount: reminders.length,
               itemBuilder: (context, index){
-                final note = notes[index];
-                final int id = note["ID"];
-                final String content = note["Content"];
+                final data = reminders[index];
+                final int id = data['ID'];
+                final String title = data['Title'];
+                final String description = data['Description'];
+                final String dueDate = data['DueDate'];
+                final bool isDone = data['IsDone'];
+                final bool repeat = data['Repeat'];
                 return Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: NoteWidget(
+                      child: ReminderWidget(
                         id: id,
-                        content: content,
+                        title: title,
+                        description: description,
+                        dueDate: dueDate,
+                        isDone: isDone,
+                        repeat: repeat,
                       ),
                     ),
                     CupertinoButton(
                       child: const Icon(CupertinoIcons.delete),
                       onPressed: () {
-                        _deleteNote(
-                          id,
-                        );
+                        _deleteReminder(id);
                         refetch!();
                       },
                     ),
