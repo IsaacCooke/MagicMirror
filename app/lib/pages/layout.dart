@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:app/pages/home.dart';
 import 'package:app/pages/flashcards.dart';
+import 'package:app/pages/notes.dart';
 import 'package:app/pages/reminders.dart';
 
 class Layout extends StatefulWidget {
@@ -30,6 +31,10 @@ class LayoutState extends State<Layout> {
             icon: Icon(CupertinoIcons.doc_fill),
             label: 'Flashcards',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.rectangle_paperclip),
+            label: 'Notes',
+          )
         ],
       ),
       tabBuilder: (context, index) {
@@ -48,6 +53,11 @@ class LayoutState extends State<Layout> {
           case 2:
             returnValue = CupertinoTabView(builder: (context) {
               return const Flashcards();
+            });
+            break;
+          case 3:
+            returnValue = CupertinoTabView(builder: (context) {
+              return const Notes();
             });
             break;
         }
