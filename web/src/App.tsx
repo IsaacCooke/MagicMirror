@@ -1,7 +1,7 @@
-import { useQuery, gql } from "@apollo/client";
 import './App.scss'
 import DisplayClock from "./widgets/DisplayClock";
 import DisplayFlashcards from "./widgets/DisplayFlashcards";
+import DisplayJoke from './widgets/DisplayJoke';
 import DisplayNotes from "./widgets/DisplayNotes";
 import DisplayReminders from "./widgets/DisplayReminders";
 
@@ -19,6 +19,9 @@ function App() {
       </div>
       <div className="box">
         <DisplayNotes />
+      </div>
+      <div className="box">
+        <DisplayJoke />
       </div>
     </div>
   );
