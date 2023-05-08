@@ -39,6 +39,7 @@ const FlashcardCycle: React.FC<{ flashcards: FlashcardProps[] }> = ({ flashcards
     return () => clearInterval(intervalId);
   }, [flashcards, currentFlashcardIndex]);
 
+  if (flashcards.length === 0) return <></>;
   return (
     <>
       <Flashcard ID={flashcards[currentFlashcardIndex].ID} Term={flashcards[currentFlashcardIndex].Term} Definition={flashcards[currentFlashcardIndex].Definition} />

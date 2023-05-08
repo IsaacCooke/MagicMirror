@@ -13,6 +13,7 @@ const DisplayNotes = () => {
   const { loading, error, data } = useQuery(GET_DATA);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
+  if (data.getAllNotes.length === 0) return <></>;
 
   return data.getAllNotes.slice(0, 5).map(({ ID, Content }: any) => (
     <div key={ID}>
