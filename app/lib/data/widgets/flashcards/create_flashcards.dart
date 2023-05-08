@@ -94,13 +94,13 @@ class CreateFlashcardsState extends State<CreateFlashcards>{
                       Navigator.pop(context);
                     },
                     child: const Text("Submit"),
-                  )
+                  ),
                 ],
               ),
-            )
-          ]
-        )
-      )
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

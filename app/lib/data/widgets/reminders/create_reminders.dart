@@ -37,7 +37,7 @@ class CreateReminderState extends State<CreateReminder> {
   }
 
   void _submitForm() async {
-    final _client = GraphQLClient(
+    final client = GraphQLClient(
       link: HttpLink('https://27d8-146-70-95-126.ngrok-free.app/graphql'),
       cache: GraphQLCache(),
     );
@@ -63,7 +63,7 @@ class CreateReminderState extends State<CreateReminder> {
       },
     );
 
-    final result = await _client.mutate(options);
+    final result = await client.mutate(options);
 
     if (result.hasException) {
       throw Exception(result.exception);
@@ -149,8 +149,8 @@ class CreateReminderState extends State<CreateReminder> {
                 ],
               ),
             ),
-          ]
-        )
+          ],
+        ),
       ),
     );
   }

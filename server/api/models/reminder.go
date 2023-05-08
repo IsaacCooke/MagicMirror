@@ -37,19 +37,3 @@ var ReminderType = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
-
-//func main() {
-//	currentTime := time.Now()
-//	fmt.Println("The time is", currentTime)
-//
-//	fmt.Printf("%d-%d-%d %d:%d:%d\n",
-//		currentTime.Year(),
-//		currentTime.Month(),
-//		currentTime.Day(),
-//		currentTime.Hour(),
-//		currentTime.Hour(),
-//		currentTime.Second())
-//
-//	theTime := time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local)
-//	fmt.Println("The random time is ", theTime)
-//}

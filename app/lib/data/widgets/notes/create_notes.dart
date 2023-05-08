@@ -63,14 +63,18 @@ class CreateNotesState extends State<CreateNotes> {
                     child: CupertinoTextFormFieldRow(
                       controller: _contentController,
                       placeholder: "Content",
-                      onSaved: (value) {
-                        _contentController.text = value!;
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return "Please enter some content";
+                        }
+                        return null;
                       },
                     ),
                   ),
                   CupertinoButton(
                     onPressed: () {
                       _submitForm();
+                      Navigator.pop(context);
                     },
                     child: const Text("Submit"),
                   ),

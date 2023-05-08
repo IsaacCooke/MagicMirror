@@ -1,6 +1,8 @@
-import 'package:app/data/widgets/notes/create_notes.dart';
-import 'package:app/data/widgets/notes/get_notes.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'package:app/data/widgets/notes/create_notes.dart';
+import 'package:app/data/widgets/notes/delete_notes.dart';
+import 'package:app/data/widgets/notes/get_notes.dart';
 
 class Notes extends StatefulWidget {
   const Notes({Key? key}) : super(key: key);
@@ -35,6 +37,15 @@ class NotesState extends State<Notes>{
                     builder: (context) => CreateNotes(),
                   ),
                 ),
+            ),
+            CupertinoButton(
+              child: const Text("Delete Note"),
+              onPressed: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => DeleteNotes(),
+                ),
+              ),
             ),
           ],
         ),

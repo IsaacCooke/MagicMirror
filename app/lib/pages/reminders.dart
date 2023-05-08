@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:app/data/widgets/reminders/get_reminders.dart';
-import 'package:app/data/widgets/reminders/create_reminders.dart';
 
+import 'package:app/data/widgets/reminders/create_reminders.dart';
+import 'package:app/data/widgets/reminders/delete_reminders.dart';
+import 'package:app/data/widgets/reminders/get_reminders.dart';
 
 class Reminders extends StatefulWidget {
   const Reminders({Key? key}) : super(key: key);
@@ -18,7 +19,6 @@ class RemindersState extends State<Reminders> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Text("Reminders"),
             CupertinoButton(
                 child: const Text("Show Reminders"),
                 onPressed: () => Navigator.push(
@@ -36,6 +36,15 @@ class RemindersState extends State<Reminders> {
                     builder: (context) => const CreateReminder(),
                   ),
                 ),
+            ),
+            CupertinoButton(
+              child: const Text("Delete Reminder"),
+              onPressed: () => Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const DeleteReminders(),
+                ),
+              ),
             ),
           ],
         ),
