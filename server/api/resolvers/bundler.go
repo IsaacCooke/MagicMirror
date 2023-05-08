@@ -75,7 +75,7 @@ func RunServer() {
 
 func setupCors(router gin.IRouter) {
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://127.0.0.1:5173"},
+		AllowOrigins:     []string{"http://127.0.0.1:5173", "http://127.0.0.1:65447"},
 		AllowMethods:     []string{"POST", "GET"},
 		AllowCredentials: true,
 		AllowHeaders:     []string{"content-type"},
