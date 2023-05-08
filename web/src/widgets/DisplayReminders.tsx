@@ -30,15 +30,14 @@ const DisplayReminders = () => {
   const GetReminderRows = () => {
     if (data.getAllReminders.length === 0) return <></>;
     return data.getAllReminders.slice(0, 5).map(({ ID, Title, IsDone, Description, DueDate }: any) => (
-      <div key={ID}>
-        <Reminder
-          id={ID}
-          title={Title}
-          description={Description}
-          isDone={IsDone}
-          date={ParseDate(DueDate)}
-        />
-      </div>
+      <Reminder
+        key={ID}
+        id={ID}
+        title={Title}
+        description={Description}
+        isDone={IsDone}
+        date={ParseDate(DueDate)}
+      />
     ));
   }
 
