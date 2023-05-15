@@ -1,30 +1,29 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import '../css/Api.scss';
 
-const DisplayJoke = () => {
+const DisplayTask = () => {
   const [state, refreshState] = useState(false);
-  const [joke, setJoke] = useState("");
+  const [task, setTask] = useState("");
 
   useEffect(() => {
     setInterval(() => {
       refreshState(!state);
-    }, 30000);
+    }, 300000);
 
-    fetch("https://icanhazdadjoke.com/", {
+    fetch("https://www.boredapi.com/api/activity", {
       headers: {
         Accept: "application/json"
       }
     })
       .then(response => response.json())
-      .then(data => setJoke(data.joke));
-  }, [state]);
-
+      .then(data => setTask(data.activity));
+  }, [state])
 
   return (
     <div className={"api-container"}>
-      <h1 className={"api-text"}>{joke}</h1>
+      <h1 className={"api-text"}>{task}</h1>
     </div>
-  );
+  )
 }
 
-export default DisplayJoke;
+export default DisplayTask;

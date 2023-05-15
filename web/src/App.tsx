@@ -4,6 +4,7 @@ import DisplayFlashcards from "./widgets/DisplayFlashcards";
 import DisplayJoke from './widgets/DisplayJoke';
 import DisplayNotes from "./widgets/DisplayNotes";
 import DisplayReminders from "./widgets/DisplayReminders";
+import DisplayTask from "./widgets/DisplayTask";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
       </div>
       <div className="box">
         <DisplayJoke />
+      </div>
+      <div className="box">
+        <DisplayTask />
       </div>
     </div>
   );
