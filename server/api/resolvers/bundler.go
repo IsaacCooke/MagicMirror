@@ -26,6 +26,8 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 
 		"getSpotifyApiKey":    getSpotifyApiKey,
 		"getSpotifyApiSecret": getSpotifyApiSecret,
+
+		"getNasaApiKey": getNasaApiKey,
 	},
 })
 

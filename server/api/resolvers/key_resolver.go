@@ -18,3 +18,10 @@ var getSpotifyApiSecret = &graphql.Field{
 		return os.Getenv("SPOTIFY_API_CLIENT_SECRET"), nil
 	},
 }
+
+var getNasaApiKey = &graphql.Field{
+	Type: graphql.String,
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		return os.Getenv("NASA_API_KEY"), nil
+	},
+}
