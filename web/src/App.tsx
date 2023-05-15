@@ -5,6 +5,7 @@ import DisplayJoke from './widgets/DisplayJoke';
 import DisplayNotes from "./widgets/DisplayNotes";
 import DisplayReminders from "./widgets/DisplayReminders";
 import DisplayTask from "./widgets/DisplayTask";
+import DisplayNumbers from "./widgets/DisplayNumbers";
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
       </div>
       <div className="box">
         <DisplayTask />
+      </div>
+      <div className="box">
+        <DisplayNumbers />
       </div>
     </div>
   );
