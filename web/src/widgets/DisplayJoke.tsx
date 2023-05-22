@@ -10,7 +10,7 @@ const DisplayJoke = () => {
       refreshState(!state);
     }, 30000);
 
-    fetch("https://icanhazdadjoke.com/", {
+    fetch("https://v2.jokeapi.dev/", {
       headers: {
         Accept: "application/json"
       }
