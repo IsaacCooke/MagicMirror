@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-
+import '../css/Api.scss';
 const DisplayPicture = () => {
   const [picture, setPicture] = useState("");
   const [text, setText] = useState("");
@@ -39,9 +39,12 @@ const DisplayPicture = () => {
   }
 
   return (
-    <div className={"api-container"}>
-      <h1 className={"api-text"}>{text}</h1>
-      <h2 className={"api-text"}>{photographer}</h2>
+    <div className={"api-image-container"}>
+      <div className={"api-image-text-background"}>
+        <h1 className={"api-image-text"}>{text}</h1>
+        <br></br>
+        <h2 className={"api-image-text"}><b>{photographer}</b></h2>
+      </div>
       <img className={"api-image"} src={picture} alt={"NASA Picture of the Day"} />
     </div>
   );

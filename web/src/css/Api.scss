@@ -1,5 +1,5 @@
 .api-text {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 500;
     color: #333;
     align-self: center;
@@ -8,4 +8,33 @@
 
 .api-container {
   align-items: center;
+}
+
+.api-image {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.api-image-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+    align-self: center;
+    text-align: justify;
+}
+
+.api-image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-right: inherit;
+}
+
+.api-image-text-background {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
 }
